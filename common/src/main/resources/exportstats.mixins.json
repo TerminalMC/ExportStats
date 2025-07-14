@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.terminalmc.exportstats.mixin",
+  "refmap": "${mod_id}.refmap.json",
+  "compatibilityLevel": "JAVA_${java_version}",
+  "mixins": [
+  ],
+  "client": [
+    "StatsScreenMixin",
+    "accessor.GeneralStatisticsListEntryAccessor",
+    "accessor.ItemStatisticsListAccessor",
+    "accessor.MobsStatisticsListMobRowAccessor",
+    "accessor.StatsScreenAccessor",
+    "world.ConnectScreenMixin",
+    "world.MinecraftMixin"
+  ],
+  "server": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
