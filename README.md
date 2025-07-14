@@ -36,7 +36,7 @@ Simply click the relevant button and your statistics will be exported to a file 
 - When you click the export button, a new folder (named for the world or server that you are
   currently in) is created in the `.minecraft/config/exportstats` folder, and the data files are
   placed in the created folder.
-- If you click the export button again while on the same world or server, the old files will be
+- If you click the export button again while in the same world or server, the old files will be
   replaced with new ones.
 
 ### Contact
