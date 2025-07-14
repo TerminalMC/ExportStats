@@ -27,8 +27,8 @@ Simply click the relevant button and your statistics will be exported to a file 
 
 <table style="width:100%;">
   <tr>
-    <td style="width:50%;"><img alt="Command demo" src="./assets/images/ingame_01.png" style="width:100%;"></td>
-    <td style="width:50%;"><img alt="Config demo 1" src="./assets/images/files_01.png" style="width:100%;"></td>
+    <td style="width:50%;"><img alt="In-game statistics screen" src="./assets/images/ingame_01.png" style="width:100%;"></td>
+    <td style="width:50%;"><img alt="Exported data files" src="./assets/images/files_01.png" style="width:100%;"></td>
   </tr>
 </table>
 
