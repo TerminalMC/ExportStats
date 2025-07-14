@@ -87,7 +87,7 @@ public abstract class StatsScreenMixin extends Screen {
                     target = "Lnet/minecraft/client/gui/layouts/LinearLayout;addChild(Lnet/minecraft/client/gui/layouts/LayoutElement;)Lnet/minecraft/client/gui/layouts/LayoutElement;"
             )
     )
-    public LayoutElement addExportButtons(
+    public LayoutElement createSearchField(
             LinearLayout instance,
             LayoutElement child,
             Operation<LayoutElement> original
