@@ -29,11 +29,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
 
+    /**
+     * Retrieves a singleplayer world name.
+     */
     @Inject(
             method = "doWorldLoad",
             at = @At("HEAD")
     )
-    private void startIntegratedServer(
+    private void onWorldLoad(
             LevelStorageSource.LevelStorageAccess levelStorage,
             PackRepository packRepo,
             WorldStem worldStem,

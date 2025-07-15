@@ -80,6 +80,9 @@ public abstract class StatsScreenMixin extends Screen {
         super(text);
     }
 
+    /**
+     * Adds the export buttons in their respective positions.
+     */
     @WrapOperation(
             method = "initButtons",
             at = @At(
@@ -87,7 +90,7 @@ public abstract class StatsScreenMixin extends Screen {
                     target = "Lnet/minecraft/client/gui/layouts/LinearLayout;addChild(Lnet/minecraft/client/gui/layouts/LayoutElement;)Lnet/minecraft/client/gui/layouts/LayoutElement;"
             )
     )
-    public LayoutElement addExportButtons(
+    public LayoutElement wrapAddChild(
             LinearLayout instance,
             LayoutElement child,
             Operation<LayoutElement> original

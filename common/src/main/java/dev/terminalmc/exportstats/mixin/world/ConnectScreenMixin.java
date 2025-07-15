@@ -30,11 +30,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ConnectScreen.class)
 public class ConnectScreenMixin {
 
+    /**
+     * Retrieves a multiplayer server IP.
+     */
     @Inject(
             method = "connect",
             at = @At("HEAD")
     )
-    private void selectMultiplayerProfile(
+    private void onConnect(
             Minecraft mc,
             ServerAddress address,
             ServerData data,

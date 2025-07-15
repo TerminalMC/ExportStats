@@ -39,6 +39,13 @@ Simply click the relevant button and your statistics will be exported to a file 
 - If you click the export button again while in the same world or server, the old files will be
   replaced with new ones.
 
+### Related
+
+- [SearchStats](https://modrinth.com/mod/ExI7GmJi) by TerminalMC
+  - Adds a search bar to the statistics screen to quickly find specific entries.
+- [Better Statistics Screen](https://modrinth.com/mod/n6PXGAoM) by TheCSDev
+  - Completely overhauls the statistics screen and makes it more useful.
+
 ### Contact
 
 [![Discord](https://img.shields.io/discord/1103153365216669797?logo=discord&label=Discord%20Server&color=%235865F2)](https://discord.terminalmc.dev)
