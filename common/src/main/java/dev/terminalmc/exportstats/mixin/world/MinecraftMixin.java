@@ -37,6 +37,7 @@ public class MinecraftMixin {
             at = @At("HEAD")
     )
     private void onWorldLoad(
+            String levelName,
             LevelStorageSource.LevelStorageAccess levelStorage,
             PackRepository packRepo,
             WorldStem worldStem,

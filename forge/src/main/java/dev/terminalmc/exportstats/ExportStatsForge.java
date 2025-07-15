@@ -16,16 +16,13 @@
 
 package dev.terminalmc.exportstats;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.common.Mod;
 
-@Mod(
-        value = ExportStats.MOD_ID,
-        dist = Dist.CLIENT
-)
-public class ExportStatsNeoForge {
+import net.minecraftforge.fml.common.Mod;
 
-    public ExportStatsNeoForge() {
+@Mod(value = ExportStats.MOD_ID)
+public class ExportStatsForge {
+
+    public ExportStatsForge() {
         // Initialize client
         ExportStats.init();
     }

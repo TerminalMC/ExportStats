@@ -19,12 +19,10 @@ package dev.terminalmc.exportstats;
 import dev.terminalmc.exportstats.mixin.accessor.GeneralStatisticsListEntryAccessor;
 import dev.terminalmc.exportstats.mixin.accessor.ItemStatisticsListAccessor;
 import dev.terminalmc.exportstats.mixin.accessor.MobsStatisticsListMobRowAccessor;
-import dev.terminalmc.exportstats.mixin.accessor.StatsScreenAccessor;
 import dev.terminalmc.exportstats.platform.Services;
 import dev.terminalmc.exportstats.util.ModLogger;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.achievement.StatsScreen.GeneralStatisticsList;
 import net.minecraft.client.gui.screens.achievement.StatsScreen.ItemStatisticsList;
 import net.minecraft.client.gui.screens.achievement.StatsScreen.ItemStatisticsList.ItemRow;
@@ -54,15 +52,10 @@ public class ExportStats {
     public static final String MOD_ID = "exportstats";
     public static final String MOD_NAME = "ExportStats";
     public static final ModLogger LOG = new ModLogger(MOD_NAME);
-    public static final WidgetSprites EXPORT_SPRITES = new WidgetSprites(
-            ResourceLocation.fromNamespaceAndPath(MOD_ID, "widget/export_button"),
-            ResourceLocation.fromNamespaceAndPath(MOD_ID, "widget/export_button_disabled"),
-            ResourceLocation.fromNamespaceAndPath(MOD_ID, "widget/export_button_highlighted")
-    );
+    public static final ResourceLocation EXPORT_SPRITES =
+            new ResourceLocation(MOD_ID, "textures/gui/sprites/widget/export_button.png");
 
     public static final Path ROOT_PATH = Services.PLATFORM.getConfigDir().resolve(MOD_ID);
-    public static final Component NO_VALUE_DISPLAY =
-            StatsScreenAccessor.exportstats$getNoValueDisplay();
 
     public static @Nullable String lastWorld = null;
     public static boolean lastWorldIsServer = false;
@@ -88,7 +81,7 @@ public class ExportStats {
         if (mobStats != null)
             exportPath = saveStats(counter, mobStats, false);
         if (exportPath != null && open)
-            Util.getPlatform().openPath(exportPath);
+            Util.getPlatform().openUri(exportPath.toUri());
     }
 
     /**
@@ -127,13 +120,13 @@ public class ExportStats {
                         ? blockColumn.get(blockItem.getBlock())
                         : null;
 
-                Component component = blockStat == null
-                        ? NO_VALUE_DISPLAY
-                        : Component.literal(blockStat.format(counter.getValue(blockStat)));
+                String string = blockStat == null
+                        ? "-"
+                        : blockStat.format(counter.getValue(blockStat));
                 builder.append(String.format(
                         "    %s: %s\n",
                         blockColumn.getDisplayName().getString(),
-                        component.getString()
+                        string
                 ));
             }
 
@@ -186,7 +179,7 @@ public class ExportStats {
         String fileName = getFileNameFormat().formatted(category);
         save(exportPath, fileName, content);
         if (open)
-            Util.getPlatform().openPath(exportPath);
+            Util.getPlatform().openUri(exportPath.toUri());
         return exportPath;
     }
 
