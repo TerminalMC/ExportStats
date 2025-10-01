@@ -16,16 +16,15 @@
 
 package dev.terminalmc.exportstats;
 
-import dev.terminalmc.exportstats.mixin.accessor.GeneralStatisticsListEntryAccessor;
-import dev.terminalmc.exportstats.mixin.accessor.ItemStatisticsListAccessor;
-import dev.terminalmc.exportstats.mixin.accessor.MobsStatisticsListMobRowAccessor;
-import dev.terminalmc.exportstats.mixin.accessor.StatsScreenAccessor;
+import dev.terminalmc.exportstats.mixin.accessor.*;
 import dev.terminalmc.exportstats.platform.Services;
 import dev.terminalmc.exportstats.util.ModLogger;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.gui.components.tabs.Tab;
 import net.minecraft.client.gui.screens.achievement.StatsScreen.GeneralStatisticsList;
+import net.minecraft.client.gui.screens.achievement.StatsScreen.GeneralStatisticsList.Entry;
 import net.minecraft.client.gui.screens.achievement.StatsScreen.ItemStatisticsList;
 import net.minecraft.client.gui.screens.achievement.StatsScreen.ItemStatisticsList.ItemRow;
 import net.minecraft.client.gui.screens.achievement.StatsScreen.MobsStatisticsList;
@@ -48,6 +47,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ExportStats {
 
@@ -75,20 +75,29 @@ public class ExportStats {
 
     public static void saveStats(
             StatsCounter counter,
-            @Nullable GeneralStatisticsList generalStats,
-            @Nullable ItemStatisticsList itemStats,
-            @Nullable MobsStatisticsList mobStats,
+            List<Tab> tabs,
             boolean open
     ) {
-        @Nullable Path exportPath = null;
-        if (generalStats != null)
-            exportPath = saveStats(counter, generalStats, false);
-        if (itemStats != null)
-            exportPath = saveStats(counter, itemStats, false);
-        if (mobStats != null)
-            exportPath = saveStats(counter, mobStats, false);
-        if (exportPath != null && open)
-            Util.getPlatform().openPath(exportPath);
+        AtomicReference<@Nullable Path> exportPath = new AtomicReference<>();
+        for (Tab tab : tabs) {
+            tab.visitChildren((child -> {
+                switch (child) {
+                    case GeneralStatisticsList stats:
+                        exportPath.set(saveStats(counter, stats, false));
+                        break;
+                    case ItemStatisticsList stats:
+                        exportPath.set(saveStats(counter, stats, false));
+                        break;
+                    case MobsStatisticsList stats:
+                        exportPath.set(saveStats(counter, stats, false));
+                        break;
+                    default:
+                        break;
+                }
+            }));
+        }
+        if (exportPath.get() != null && open)
+            Util.getPlatform().openPath(exportPath.get());
     }
 
     /**
@@ -97,7 +106,7 @@ public class ExportStats {
     public static Path saveStats(StatsCounter counter, GeneralStatisticsList stats, boolean open) {
         StringBuilder builder = new StringBuilder();
 
-        for (GeneralStatisticsList.Entry row : stats.children()) {
+        for (Entry row : stats.children()) {
             Stat<ResourceLocation> stat =
                     ((GeneralStatisticsListEntryAccessor) row).exportstats$getStat();
             String key = "stat." + stat.getValue().toString().replace(':', '.');
@@ -116,14 +125,18 @@ public class ExportStats {
     public static Path saveStats(StatsCounter counter, ItemStatisticsList stats, boolean open) {
         StringBuilder builder = new StringBuilder();
 
-        for (ItemRow row : stats.children()) {
-            String name = row.getItem().getDefaultInstance().getHoverName().getString();
+        for (Object obj : stats.children()) {
+            if (!(obj instanceof ItemRow row))
+                continue;
+            Item item = ((ItemStatisticsListItemRowAccessor) row).exportstats$getItem();
+
+            String name = item.getDefaultInstance().getHoverName().getString();
             builder.append("%s\n".formatted(name));
 
             List<StatType<Block>> blockColumns =
                     ((ItemStatisticsListAccessor) stats).exportstats$getBlockColumns();
             for (StatType<Block> blockColumn : blockColumns) {
-                Stat<Block> blockStat = row.getItem() instanceof BlockItem blockItem
+                Stat<Block> blockStat = item instanceof BlockItem blockItem
                         ? blockColumn.get(blockItem.getBlock())
                         : null;
 
@@ -140,7 +153,7 @@ public class ExportStats {
             List<StatType<Item>> itemColumns =
                     ((ItemStatisticsListAccessor) stats).exportstats$getItemColumns();
             for (StatType<Item> itemColumn : itemColumns) {
-                Stat<Item> itemStat = itemColumn.get(row.getItem());
+                Stat<Item> itemStat = itemColumn.get(item);
 
                 Component component =
                         Component.literal(itemStat.format(counter.getValue(itemStat)));
@@ -233,7 +246,7 @@ public class ExportStats {
      */
     private static String getFileNameFormat() {
         String name = Minecraft.getInstance().player != null
-                ? Minecraft.getInstance().player.getGameProfile().getName()
+                ? Minecraft.getInstance().player.getGameProfile().name()
                 : "player";
         return "%s_%s_%%s.txt".formatted(Component.translatable("gui.stats").getString(), name);
     }

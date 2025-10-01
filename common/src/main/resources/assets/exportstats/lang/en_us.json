@@ -3,8 +3,5 @@
   "modmenu.descriptionTranslation.exportstats": "Adds a button to the statistics screen to export data to a text file.",
   "fml.menu.mods.info.description.exportstats": "Adds a button to the statistics screen to export data to a text file.",
 
-  "button.exportstats.export.all": "Export All",
-  "button.exportstats.export.general.tooltip": "Export general statistics",
-  "button.exportstats.export.items.tooltip": "Export item statistics",
-  "button.exportstats.export.mobs.tooltip": "Export mob statistics"
+  "button.exportstats.export.all": "Export all statistics"
 }

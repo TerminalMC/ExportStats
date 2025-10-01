@@ -10,6 +10,7 @@
     "StatsScreenMixin",
     "accessor.GeneralStatisticsListEntryAccessor",
     "accessor.ItemStatisticsListAccessor",
+    "accessor.ItemStatisticsListItemRowAccessor",
     "accessor.MobsStatisticsListMobRowAccessor",
     "accessor.StatsScreenAccessor",
     "world.ConnectScreenMixin",
