@@ -19,7 +19,6 @@ package dev.terminalmc.exportstats;
 import dev.terminalmc.exportstats.mixin.accessor.*;
 import dev.terminalmc.exportstats.platform.Services;
 import dev.terminalmc.exportstats.util.ModLogger;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.components.tabs.Tab;
@@ -30,13 +29,15 @@ import net.minecraft.client.gui.screens.achievement.StatsScreen.ItemStatisticsLi
 import net.minecraft.client.gui.screens.achievement.StatsScreen.MobsStatisticsList;
 import net.minecraft.client.gui.screens.achievement.StatsScreen.MobsStatisticsList.MobRow;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.stats.Stat;
 import net.minecraft.stats.StatType;
 import net.minecraft.stats.StatsCounter;
+import net.minecraft.util.Util;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.FileOutputStream;
@@ -55,9 +56,9 @@ public class ExportStats {
     public static final String MOD_NAME = "ExportStats";
     public static final ModLogger LOG = new ModLogger(MOD_NAME);
     public static final WidgetSprites EXPORT_SPRITES = new WidgetSprites(
-            ResourceLocation.fromNamespaceAndPath(MOD_ID, "widget/export_button"),
-            ResourceLocation.fromNamespaceAndPath(MOD_ID, "widget/export_button_disabled"),
-            ResourceLocation.fromNamespaceAndPath(MOD_ID, "widget/export_button_highlighted")
+            Identifier.fromNamespaceAndPath(MOD_ID, "widget/export_button"),
+            Identifier.fromNamespaceAndPath(MOD_ID, "widget/export_button_disabled"),
+            Identifier.fromNamespaceAndPath(MOD_ID, "widget/export_button_highlighted")
     );
 
     public static final Path ROOT_PATH = Services.PLATFORM.getConfigDir().resolve(MOD_ID);
@@ -107,7 +108,7 @@ public class ExportStats {
         StringBuilder builder = new StringBuilder();
 
         for (Entry row : stats.children()) {
-            Stat<ResourceLocation> stat =
+            Stat<@NotNull Identifier> stat =
                     ((GeneralStatisticsListEntryAccessor) row).exportstats$getStat();
             String key = "stat." + stat.getValue().toString().replace(':', '.');
             String name = Component.translatable(key).getString();
@@ -133,10 +134,10 @@ public class ExportStats {
             String name = item.getDefaultInstance().getHoverName().getString();
             builder.append("%s\n".formatted(name));
 
-            List<StatType<Block>> blockColumns =
+            List<StatType<@NotNull Block>> blockColumns =
                     ((ItemStatisticsListAccessor) stats).exportstats$getBlockColumns();
-            for (StatType<Block> blockColumn : blockColumns) {
-                Stat<Block> blockStat = item instanceof BlockItem blockItem
+            for (StatType<@NotNull Block> blockColumn : blockColumns) {
+                Stat<@NotNull Block> blockStat = item instanceof BlockItem blockItem
                         ? blockColumn.get(blockItem.getBlock())
                         : null;
 
@@ -150,10 +151,10 @@ public class ExportStats {
                 ));
             }
 
-            List<StatType<Item>> itemColumns =
+            List<StatType<@NotNull Item>> itemColumns =
                     ((ItemStatisticsListAccessor) stats).exportstats$getItemColumns();
-            for (StatType<Item> itemColumn : itemColumns) {
-                Stat<Item> itemStat = itemColumn.get(item);
+            for (StatType<@NotNull Item> itemColumn : itemColumns) {
+                Stat<@NotNull Item> itemStat = itemColumn.get(item);
 
                 Component component =
                         Component.literal(itemStat.format(counter.getValue(itemStat)));

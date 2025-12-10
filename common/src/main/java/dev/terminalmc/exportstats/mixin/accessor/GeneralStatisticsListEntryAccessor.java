@@ -17,8 +17,9 @@
 package dev.terminalmc.exportstats.mixin.accessor;
 
 import net.minecraft.client.gui.screens.achievement.StatsScreen.GeneralStatisticsList;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.stats.Stat;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
@@ -26,5 +27,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface GeneralStatisticsListEntryAccessor {
 
     @Accessor("stat")
-    Stat<ResourceLocation> exportstats$getStat();
+    Stat<@NotNull Identifier> exportstats$getStat();
 }
