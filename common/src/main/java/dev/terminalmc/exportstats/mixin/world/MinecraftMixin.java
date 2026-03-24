@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,17 @@ import dev.terminalmc.exportstats.ExportStats;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.WorldStem;
 import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Optional;
+
 @Mixin(Minecraft.class)
-public class MinecraftMixin {
+public abstract class MinecraftMixin {
 
     /**
      * Retrieves a singleplayer world name.
@@ -36,14 +39,17 @@ public class MinecraftMixin {
             method = "doWorldLoad",
             at = @At("HEAD")
     )
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+
     private void onWorldLoad(
-            LevelStorageSource.LevelStorageAccess levelStorage,
-            PackRepository packRepo,
+            LevelStorageSource.LevelStorageAccess levelSourceAccess,
+            PackRepository packRepository,
             WorldStem worldStem,
+            Optional<GameRules> gameRules,
             boolean newWorld,
             CallbackInfo ci
     ) {
-        ExportStats.lastWorld = worldStem.worldData().getLevelName();
+        ExportStats.lastWorld = worldStem.worldDataAndGenSettings().data().getLevelName();
         ExportStats.lastWorldIsServer = false;
     }
 }

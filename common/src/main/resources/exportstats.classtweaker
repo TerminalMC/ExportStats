@@ -1,5 +1,5 @@
-accessWidener v2 named
-# https://fabricmc.net/wiki/tutorial:accesswideners
+classTweaker v1 official
+# https://wiki.fabricmc.net/tutorial:accesswidening
 accessible class net/minecraft/client/gui/screens/achievement/StatsScreen$GeneralStatisticsList
 accessible class net/minecraft/client/gui/screens/achievement/StatsScreen$GeneralStatisticsList$Entry
 accessible class net/minecraft/client/gui/screens/achievement/StatsScreen$ItemStatisticsList

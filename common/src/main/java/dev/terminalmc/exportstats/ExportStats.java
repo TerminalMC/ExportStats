@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 package dev.terminalmc.exportstats;
 
 import dev.terminalmc.exportstats.mixin.accessor.*;
-import dev.terminalmc.exportstats.platform.Services;
+import dev.terminalmc.exportstats.platform.services.PlatformServices;
 import dev.terminalmc.exportstats.util.ModLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -61,7 +61,8 @@ public class ExportStats {
             Identifier.fromNamespaceAndPath(MOD_ID, "widget/export_button_highlighted")
     );
 
-    public static final Path ROOT_PATH = Services.PLATFORM.getConfigDir().resolve(MOD_ID);
+    public static final Path ROOT_PATH =
+            PlatformServices.getInstance().getConfigDir().resolve(MOD_ID);
     public static final Component NO_VALUE_DISPLAY =
             StatsScreenAccessor.exportstats$getNoValueDisplay();
 
