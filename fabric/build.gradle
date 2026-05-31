@@ -51,7 +51,7 @@ dependencies {
 
 // Configure Loom
 loom {
-    // Apply common classtweaker if it exists
+    // Apply common classTweaker if it exists
     def aw = project(":common").file("src/main/resources/${mod_id}.classtweaker")
     if (aw.exists()) accessWidenerPath.set(aw)
     if (aw.exists()) {
@@ -59,9 +59,6 @@ loom {
         afterEvaluate {
             validateAccessWidener.run()
         }
-    }
-    mixin {
-        defaultRefmapName.set("${mod_id}.refmap.json")
     }
     // Configure runs
     runs {

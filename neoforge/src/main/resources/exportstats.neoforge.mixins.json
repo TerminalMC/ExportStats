@@ -1,8 +1,7 @@
 {
   "required": true,
-  "minVersion": "0.8",
+  "minVersion": "${mixin_version_min}",
   "package": "dev.terminalmc.exportstats.mixin",
-  "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_${java_version}",
   "plugin": "dev.terminalmc.exportstats.util.MixinConfigPlugin",
   "mixinextras": {
