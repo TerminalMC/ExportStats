@@ -23,7 +23,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Button.OnPress;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.components.tabs.TabNavigationBar;
+import net.minecraft.client.gui.components.tabs.MenuTabBar;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.client.gui.layouts.LinearLayout;
@@ -53,7 +53,7 @@ public abstract class StatsScreenMixin extends Screen {
 
     @Shadow
     @Nullable
-    private TabNavigationBar tabNavigationBar;
+    private MenuTabBar tabNavigationBar;
 
     public StatsScreenMixin(Component text) {
         super(text);
