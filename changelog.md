@@ -4,6 +4,7 @@
 
 - Updated to mc26.1.2
 - Removed refmap usages
+- Removed redundant ModMenu entrypoint
 
 ## 1.0.0
 

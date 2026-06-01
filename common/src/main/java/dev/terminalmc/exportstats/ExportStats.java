@@ -18,7 +18,7 @@ package dev.terminalmc.exportstats;
 
 import dev.terminalmc.exportstats.mixin.accessor.*;
 import dev.terminalmc.exportstats.platform.services.PlatformServices;
-import dev.terminalmc.exportstats.util.ModLogger;
+import dev.terminalmc.exportstats.util.Logging;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.components.tabs.Tab;
@@ -37,6 +37,7 @@ import net.minecraft.util.Util;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,7 +55,7 @@ public class ExportStats {
 
     public static final String MOD_ID = "exportstats";
     public static final String MOD_NAME = "ExportStats";
-    public static final ModLogger LOG = new ModLogger(MOD_NAME);
+    public static final Logger LOG = Logging.getLogger(MOD_ID);
     public static final WidgetSprites EXPORT_SPRITES = new WidgetSprites(
             Identifier.fromNamespaceAndPath(MOD_ID, "widget/export_button"),
             Identifier.fromNamespaceAndPath(MOD_ID, "widget/export_button_disabled"),
@@ -68,6 +69,10 @@ public class ExportStats {
 
     public static @Nullable String lastWorld = null;
     public static boolean lastWorldIsServer = false;
+
+    private ExportStats() {
+        throw new UnsupportedOperationException("This class cannot be instantiated.");
+    }
 
     /**
      * Client initialization.
